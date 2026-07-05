@@ -9,8 +9,10 @@ app.use(cors());
 app.use(express.json());
 
 const authRoutes= require('./routes/auth');
+const inventoryRoutes= require('./routes/inventory');
 
 app.use('/api/auth', authRoutes);
+app.use('/api/inventory', inventoryRoutes);
 
 app.listen(PORT, ()=>{
     console.log(`Backend running in http://localhost:${PORT}`);
