@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useInventory } from '../context/InventoryContext';
+import AddItemModal from './AddItemModal'; 
 
 export default function InventoryTable() {
-  const { items } = useInventory();
+  const { items, addItem } = useInventory(); 
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+
+  const handleAddNewItem = async (newItemData) => {
+    const payload = {
+      item_name: newItemData.name,
+      category: newItemData.category || 'Hardware',
+      quantity: newItemData.stock,
+      price: newItemData.price
+    };
+
+    try {
+      if (addItem) {
+        await addItem(payload);
+      } else {
+        console.warn("addItem function is missing inside your InventoryContext.jsx!");
+      }
+      setIsModalOpen(false);
+    } catch (err) {
+      console.error("Failed to commit item creation workflow:", err);
+    }
+  };
 
   return (
     <div className="p-8">
@@ -11,8 +33,18 @@ export default function InventoryTable() {
           <h1 className="text-2xl font-bold text-slate-800">Inventory Stock</h1>
           <p className="text-slate-500 text-sm">Real-time view of warehouse levels</p>
         </div>
-        <div className="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-lg font-semibold text-sm">
-          Total SKUs: {items.length}
+        
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm px-4 py-2 rounded-lg shadow-md transition-all duration-150"
+          >
+            + Add New Product
+          </button>
+          
+          <div className="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-lg font-semibold text-sm">
+            Total SKUs: {items.length}
+          </div>
         </div>
       </div>
 
@@ -66,6 +98,12 @@ export default function InventoryTable() {
           </div>
         )}
       </div>
+
+      <AddItemModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onAdd={handleAddNewItem} 
+      />
     </div>
   );
 }

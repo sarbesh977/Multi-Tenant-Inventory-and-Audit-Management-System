@@ -3,12 +3,12 @@ import { NavLink } from 'react-router-dom';
 
 export default function Sidebar() {
   const menuItems = [
-    { icon: '📊', label: 'Dashboard', path: '/' },
-    { icon: '📦', label: 'Inventory', path: '/inventory' },
-    { icon: '⚡', label: 'Operations', path: '/operations' }, // New Item Added
-    { icon: '📋', label: 'Audits', path: '/audits' },
-    { icon: '👥', label: 'Users', path: '/users' },
-    { icon: '⚙️', label: 'Settings', path: '/settings' },
+    {  label: 'Dashboard', path: '/dashboard' },
+    {  label: 'Inventory', path: '/inventory' },
+    {  label: 'Operations', path: '/operations' }, 
+    {  label: 'Audits', path: '/audits' },
+    {  label: 'Users', path: '/users' },
+    {  label: 'Settings', path: '/settings' },
   ];
 
   return (

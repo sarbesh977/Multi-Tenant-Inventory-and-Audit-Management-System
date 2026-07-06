@@ -6,7 +6,7 @@ export default function Dashboard() {
   const { items, transactions } = useInventory();
   const navigate = useNavigate();
 
-  // 1. Calculations
+  
   const totalValue = items.reduce((acc, item) => acc + (item.price * item.stock), 0);
   const totalSkuCount = items.length;
   
@@ -105,7 +105,7 @@ export default function Dashboard() {
         <div className="p-6 bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col">
           <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
             <h2 className="text-md font-bold text-slate-800 flex items-center gap-2">
-              🚨 Deficit Monitoring
+               Deficit Monitoring
             </h2>
             <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 bg-slate-50 px-2 py-0.5 rounded border border-slate-200">Action Needed</span>
           </div>

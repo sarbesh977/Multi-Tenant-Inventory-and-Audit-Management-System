@@ -44,29 +44,45 @@ router.get('/audit-history', async (req,res)=>{
     }
 });
 
-router.post('/add',verifyToken, async(req,res)=>{
-    try{
-        const {item_name, sku, quantity, location}= req.body;
-        const userId= req.user.id;
-        const operatorName= req.user.name;
+router.post('/add', verifyToken, async (req, res) => {
+    try {
+        const { item_name, category, quantity, price } = req.body;
+        const userId = req.user && req.user.id ? parseInt(req.user.id) : null;
+        const operatorName = req.user && req.user.name ? req.user.name : 'System';
 
-        const qty= parseInt(quantity)||0;
+        const qty = parseInt(quantity) || 0;
+        const finalPrice = parseFloat(price) || 0;
 
-        const newItem= await pool.query(
+        const newItem = await pool.query(
             `INSERT INTO inventories (item_name, category, quantity, price)
-            VALUES ($1,$2,$3,$4) RETURNING *`,
-            [name, category, qty,itemPrice]
+             VALUES ($1, $2, $3, $4) RETURNING *`,
+            [item_name || 'Unnamed Item', category || 'Hardware', qty, finalPrice]
         );
+
+        const createdItem = newItem.rows[0];
 
         await pool.query(
-            `INSERT INTO audit_logs (item_id, user_id, item_name, action_type,old_quantity, new_quantity, change_reason, operator_name )
-            VALUES ($1,$2,$3,'Initial_ENTRY', 0,$4, 'First Stock Entry', $5)`,
-            [newItem.rows[0].id, userId, name, qty, operatorName]
+            `INSERT INTO audit_logs (item_id, user_id, item_name, action_type, old_quantity, new_quantity, change_reason, operator_name)
+             VALUES ($1, $2, $3, 'ADD', 0, $4, 'First Stock Entry', $5)`,
+            [createdItem.id, userId, createdItem.item_name, qty, operatorName]
         );
-        return res.status(201).json({message: "Item added & tracking logged successfully!"});
-    } catch(error){
-        console.error("Database Error on POST add:", error);
-        return res.status(500).json({ message: "Database creation failure." });
+
+        return res.status(201).json({
+            message: "Item added & tracking logged successfully!",
+            item: {
+                id: createdItem.id,
+                name: createdItem.item_name,
+                category: createdItem.category,
+                stock: createdItem.quantity,
+                price: parseFloat(createdItem.price) || 0.00
+            }
+        });
+    } catch (error) {
+        console.error("CRITICAL SQL ERROR ON POST ADD:", error.message, error.stack);
+        return res.status(500).json({ 
+            message: "Database creation failure.",
+            errorDetails: error.message
+        });
     }
 });
 
@@ -79,7 +95,7 @@ try{
     const userId= req.user.id;
     const operatorName= req.user.name;
 
-    const currentCheck= await pool.query('SELECT * FROM inventories WHERE id=&1, [id]');
+    const currentCheck= await pool.query('SELECT * FROM inventories WHERE id=$1', [id]);
     if(currentCheck.rows.length===0){
         return res.status(404).json({ message: "Item not found in inventory table" });
     }
@@ -91,7 +107,7 @@ try{
             [targetQty, id]
         );
 
-        const logType= adjustmentAmount > 0 ? "RESATOCK" : "REDUCTION";
+        const logType= adjustmentAmount > 0 ? "RESTOCK" : "REDUCTION";
         await pool.query(
             `INSERT INTO audit_logs (item_id, user_id, item_name, action_type, old_quantity, new_quantity, change_reason, operator_name)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
