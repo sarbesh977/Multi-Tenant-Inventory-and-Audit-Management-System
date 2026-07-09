@@ -29,6 +29,7 @@ router.get('/audit-history', async (req,res)=>{
             const difference= log.new_quantity- log.old_quantity;
             return {
             id: log.id,
+            operatorName: log.operator_name || 'System',
             itemName : log.item_name,
             change: difference>0? `+${difference}`: `${difference}`,
             type: log.action_type,

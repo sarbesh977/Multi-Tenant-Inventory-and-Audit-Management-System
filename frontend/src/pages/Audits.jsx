@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { useInventory } from "../context/InventoryContext";
 
 export default function Audits() {
@@ -23,6 +23,9 @@ export default function Audits() {
               </th>
               <th className="p-4 font-semibold text-slate-600 text-sm text-center">
                 Change
+              </th>
+              <th className="p-4 font-semibold text-slate-600 text-sm">
+                Operator
               </th>
               <th className="p-4 font-semibold text-slate-600 text-sm">
                 Description / Reference
@@ -52,6 +55,9 @@ export default function Audits() {
                   >
                     {log.change}
                   </span>
+                </td>
+                <td className="p-4 text-sm font-medium text-slate-700">
+                  {log.operatorName || "System"}
                 </td>
                 <td className="p-4 text-sm text-slate-600 italic">
                   {log.reason}

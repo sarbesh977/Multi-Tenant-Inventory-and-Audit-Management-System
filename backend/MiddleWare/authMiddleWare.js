@@ -2,9 +2,10 @@ const jwt= require('jsonwebtoken');
 const JWT_SECRET= process.env.JWT_SECRET;
 
 const verifyToken=(req,res,next)=>{
-    const authHeader= req.header('Authorization');
+    const authHeader = req.headers['authorization'] || req.header('Authorization');
     const token= authHeader && authHeader.split(' ')[1];
 
+    console.log(" Incoming Auth Header:", authHeader);
     if(!token){
         return res.status(401).json({message:"Access Denied. No token provided."});
     }
