@@ -18,7 +18,6 @@ export default function Sidebar() {
         Inv<span className="text-emerald-500">Audit</span>
       </div>
 
-      {/* Navigation Links */}
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
         {menuItems.map((item) => (
           <NavLink
@@ -38,7 +37,6 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {/* Footer Info */}
       <div className="p-4 border-t border-slate-800 text-xs text-slate-500 text-center">
         Created by <span className="text-slate-300 font-semibold">Sarbesh</span> © 2026
       </div>

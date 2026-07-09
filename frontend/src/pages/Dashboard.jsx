@@ -39,7 +39,6 @@ export default function Dashboard() {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Inventory Worth */}
         <div className="group relative p-6 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all duration-200">
           <div className="absolute top-0 left-0 w-1.5 h-full bg-blue-600" />
           <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Inventory Valuation</p>
@@ -49,7 +48,6 @@ export default function Dashboard() {
           <p className="text-xs text-slate-400 mt-2">Aggregated asset worth based on list pricing</p>
         </div>
 
-        {/* Low Stock Alerts */}
         <div className="group relative p-6 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-all duration-200">
           <div className={`absolute top-0 left-0 w-1.5 h-full ${criticalItemsCount > 0 ? 'bg-rose-500' : 'bg-slate-300'}`} />
           <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Critical Stock Alerts</p>
@@ -77,7 +75,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/*QUICK ACTIO*/}
       <div className="p-4  bg-slate-900 text-white rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-inner">
         <div className="sm:pl-2">
           <p className="text-sm font-bold">Fast-Track Administration</p>
@@ -99,7 +96,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/*BOTTOM STYLING*/}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         <div className="p-6 bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col">
@@ -132,11 +128,10 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* PANEL B: RECENT LOG FEED */}
         <div className="p-6 bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col">
           <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
             <h2 className="text-md font-bold text-slate-800 flex items-center gap-2">
-              ⚡ Real-time Audit Ticker
+               Real-time Audit Ticker
             </h2>
             <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 bg-slate-50 px-2 py-0.5 rounded border border-slate-200">System Logs</span>
           </div>

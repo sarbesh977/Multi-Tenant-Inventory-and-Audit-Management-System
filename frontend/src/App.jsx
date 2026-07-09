@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard';
 import InventoryTable from './components/InventoryTable';
 import Operations from './pages/Operations'; 
 import Audits from './pages/Audits';
+import Users from './pages/Users';
 
 const ProtectedLayout= ()=>{
     return(
@@ -36,6 +37,7 @@ export default function App() {
               <Route path="/inventory" element={<InventoryTable />} />
               <Route path="/operations" element={<Operations />} />
               <Route path="/audits" element={<Audits />} />
+              <Route path="/users" element={<Users />} />
             </Route>
               
             </Routes>

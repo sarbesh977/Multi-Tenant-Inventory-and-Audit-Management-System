@@ -5,7 +5,20 @@ const bcrypt= require('bcryptjs');
 const router= express.Router();
 const JWT_SECRET= process.env.JWT_SECRET;
 const pool= require('../database/db');
+const verifyToken = require('../MiddleWare/authMiddleWare');
 
+router.get('/all-users', verifyToken, async(req,res)=>{
+    try{
+        const usersQuery= await pool.query(
+            'SELECT id, name, email, role FROM users ORDER BY id ASC'
+        );
+        return res.json(usersQuery.rows);
+    }
+    catch(error){
+        console.error("Error fetching dashboard users:", error.message);
+        return res.status(500).json({ message: "Failed to retrieve user directory." });
+    }
+});
 
 router.post('/register', async(req,res)=>{
 
